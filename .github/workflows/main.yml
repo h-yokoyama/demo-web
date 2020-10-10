@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Deploy ec2
+name: Deploy Vue
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -44,5 +44,5 @@ jobs:
         run: |
           echo "$PRIVATE_KEY" > private_key && chmod 600 private_key
           echo "===== scp vue module ====="
-          scp -o StrictHostKeyChecking=no -i private_key -r ./web/dist/ ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:/home/${{ env.EC2_USER }}/index
+          scp -o StrictHostKeyChecking=no -i private_key -r ./dist/ ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:/home/${{ env.EC2_USER }}/index
 
