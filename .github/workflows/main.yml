@@ -46,3 +46,12 @@ jobs:
           echo "===== scp vue module ====="
           scp -o StrictHostKeyChecking=no -i private_key -r ./dist/ ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:/home/${{ env.EC2_USER }}/index
 
+      - name: Ssh ec2 reestart tomcat
+        uses: appleboy/ssh-action@master
+        with:
+          key: ${{ secrets.AWS_APPSRV1_PRIVATE_KEY }}
+          username: ${{ env.EC2_USER }}
+          host: ${{ env.EC2_HOST }}
+          script: |
+            echo "===== deploy vue module ====="
+            sudo cp -rf /home/${{ env.EC2_USER }}/index/dist/* /usr/share/nginx/html/demo/
