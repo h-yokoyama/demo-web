@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     refresh: async function() {
-      const ret = await axios.get(process.env.VUE_APP_API_URL);
+      const ret = await axios.get(process.env.VUE_APP_API_URL + "findAll");
       this.currencies = ret.data.currencies;
       this.request.name = undefined;
       this.request.symbol = undefined;
@@ -119,7 +119,7 @@ export default {
       });
     },
     deleteCurrency: async function(id) {
-      await axios.delete(process.env.VUE_APP_API_URL + id);
+      await axios.get(process.env.VUE_APP_API_URL + "delete/" + id);
       await this.refresh();
       this.$message({
         showClose: true,
@@ -129,7 +129,7 @@ export default {
     },
     updateCurrency: async function(selectedItem) {
       await console.log(selectedItem);
-      await axios.put(process.env.VUE_APP_API_URL, selectedItem);
+      await axios.post(process.env.VUE_APP_API_URL + "update", selectedItem);
       await this.refresh();
       this.$message({
         showClose: true,
