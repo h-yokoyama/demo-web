@@ -38,7 +38,7 @@ jobs:
           npm ci
           npm run build:prod
 
-      - name: Scp ec2 copy war file
+      - name: Scp ec2 copy vue modules
         env:
           PRIVATE_KEY: ${{ secrets.AWS_APPSRV1_PRIVATE_KEY }}
         run: |
@@ -46,7 +46,7 @@ jobs:
           echo "===== scp vue module ====="
           scp -o StrictHostKeyChecking=no -i private_key -r ./dist/ ${{ env.EC2_USER }}@${{ env.EC2_HOST }}:/home/${{ env.EC2_USER }}/index
 
-      - name: Ssh ec2 reestart tomcat
+      - name: Ssh ec2 deploy vue module
         uses: appleboy/ssh-action@master
         with:
           key: ${{ secrets.AWS_APPSRV1_PRIVATE_KEY }}
