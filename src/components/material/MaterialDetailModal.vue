@@ -84,7 +84,7 @@
       </el-card>
     </el-col>
     <span slot="footer" class="dialog-footer">
-      <el-button type="info" @click="hideModal">閉じる</el-button>
+      <el-button size="medium" type="info" @click="hideModal">閉じる</el-button>
     </span>
   </el-dialog>
 </template>

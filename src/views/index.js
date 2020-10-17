@@ -21,12 +21,10 @@ const routes = [
   },
   // ここを追加
   {
-    path: "/master/material",
-    name: "MaterialMaster",
+    path: "/currency",
+    name: "Currency",
     component: () =>
-      import(
-        /* webpackChunkName: "currency" */ "../views/master/MaterialMaster.vue"
-      )
+      import(/* webpackChunkName: "currency" */ "../views/Currency.vue")
   }
 ];
 

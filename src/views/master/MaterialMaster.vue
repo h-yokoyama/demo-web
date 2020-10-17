@@ -1,23 +1,16 @@
 <template>
   <el-row>
     <el-col :span="24">
-      <div slot="header">
-        <span>新規材料追加</span>
-      </div>
-      <el-card class="box-card box-card-wrapper">
+      <el-card class="box-card">
+        <div slot="header" class="clearfix">
+          <span>材料マスタ</span>
+        </div>
         <material-add-list v-on:onMaterialAddModal="onMaterialAddModal(true)" />
         <material-add-modal
           v-bind:materialAddModalVisible="materialAddModalVisible"
           v-on:onMaterialAddModal="onMaterialAddModal(false)"
           v-on:saveMaterial="saveMaterial"
         />
-      </el-card>
-    </el-col>
-    <el-col :span="24">
-      <el-card class="box-card">
-        <div slot="header" class="clearfix">
-          <span>材料一覧</span>
-        </div>
         <material-detail-modal
           v-bind:materialDetailModalVisible="materialDetailModalVisible"
           v-bind:materialDetailRequest="materialDetailRequest"
@@ -29,8 +22,8 @@
             <el-table-column prop="id" label="材料ID" width="100" />
             <el-table-column prop="name" label="材料名" width="200" />
             <el-table-column prop="tag1" label="タグ1" width="200" />
-            <el-table-column prop="tag1" label="タグ2" width="200" />
-            <el-table-column prop="tag1" label="タグ3" width="200" />
+            <el-table-column prop="tag2" label="タグ2" width="200" />
+            <el-table-column prop="tag3" label="タグ3" width="200" />
           </el-table-column>
           <el-table-column label="メーカー情報">
             <el-table-column prop="makerName" label="メーカー名" width="200" />
@@ -47,7 +40,7 @@
           </el-table-column>
           <el-table-column
             prop="operation"
-            label="Ops"
+            label="操作"
             width="200"
             align="left"
           >
@@ -66,14 +59,24 @@
                 v-on:updateMaterial="updateMaterial"
               />
               <el-button
-                size="mini"
+                size="medium"
                 type="danger"
                 @click="deleteMaterial(scope.row.id)"
-                >×</el-button
+                class="b-delete"
+                >削除</el-button
               >
             </template>
           </el-table-column>
         </el-table>
+        <el-pagination
+          class="c-pagenation"
+          background
+          layout="prev, pager, next"
+          :total="totalElements"
+          :page-size="pageSize"
+          @current-change="clickPage"
+        >
+        </el-pagination>
       </el-card>
     </el-col>
   </el-row>
@@ -89,7 +92,7 @@ import MaterialAddModal from "@/components/material/MaterialAddModal.vue";
 import url from "@/mixin/UrlMixin.js";
 
 export default {
-  name: "Currency",
+  name: "MaterialMaster",
   components: {
     MaterialDetailModal,
     MaterialUpdateList,
@@ -104,6 +107,13 @@ export default {
       materialDetailModalVisible: false,
       materialAddModalVisible: false,
       materialUpdateModalVisible: false,
+      pageRequest: {
+        page: 0,
+        size: 3
+      },
+      totalElements: 0,
+      pageSize: 3,
+      page: 0,
       materialDetailRequest: {
         id: undefined,
         name: undefined,
@@ -135,7 +145,8 @@ export default {
         makerCharge: undefined,
         makerContact: undefined,
         remarks: undefined
-      }
+      },
+      totalCount: 0
     };
   },
   created: async function() {
@@ -143,8 +154,12 @@ export default {
   },
   methods: {
     async refresh() {
-      const ret = await axios.get(url.MATERIAL_FIND_ALL);
+      const ret = await axios.post(
+        url.MATERIAL_FIND_ALL_PAGEABLE,
+        this.pageRequest
+      );
       this.materials = ret.data.materials;
+      this.totalElements = ret.data.totalElements;
     },
     rowClick(selectedRow, e) {
       if (e.property != "operation") {
@@ -193,11 +208,22 @@ export default {
         type: "success"
       });
       this.materialAddModalVisible = false;
+    },
+    clickPage(page) {
+      this.pageRequest.page = page - 1;
+      this.refresh();
     }
   }
 };
 </script>
 
 <style scoped lang="scss">
-@import "../styles/base";
+@import "@/styles/base";
+// 一覧内の削除ボタン
+.b-delete {
+  margin-left: 10px;
+}
+.c-pagenation {
+  margin: 10px 0;
+}
 </style>

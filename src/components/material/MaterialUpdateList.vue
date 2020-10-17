@@ -1,5 +1,5 @@
 <template>
-  <el-button size="mini" type="primary" @click="showMaterialUpdateModal"
+  <el-button size="medium" type="primary" @click="showMaterialUpdateModal"
     >更新</el-button
   >
 </template>
