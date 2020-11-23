@@ -3,7 +3,7 @@
     <el-col :span="24">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>材料マスタ</span>
+          <span></span>
         </div>
         <div style="margin-bottom: 20px;display: flex;">
           <el-input
@@ -114,7 +114,7 @@ import MaterialAddModal from "@/components/material/MaterialAddModal.vue";
 import url from "@/mixin/UrlMixin.js";
 
 export default {
-  name: "MaterialMaster",
+  name: "Plan",
   components: {
     MaterialDetailModal,
     MaterialUpdateList,

@@ -6,7 +6,7 @@
       class="el-menu-demo"
       mode="horizontal"
     >-->
-    <el-menu class="el-menu-demo" mode="horizontal">
+    <el-menu mode="horizontal">
       <el-menu-item index="1"
         ><router-link to="/">Home</router-link></el-menu-item
       >
@@ -23,22 +23,81 @@
         </el-submenu>
       </el-submenu>
       <el-menu-item index="3" disabled>Info</el-menu-item>
-      <el-menu-item index="4"
-        ><a href="https://www.ele.me" target="_blank">Orders</a></el-menu-item
-      >
+      <el-submenu index="4">
+        <template slot="title">実験計画</template>
+        <el-menu-item index="4-1"
+          ><router-link to="/plan/plan">実験計画</router-link></el-menu-item
+        >
+        <el-menu-item index="4-2"
+          ><router-link to="/plan/NewPlan"
+            >実験計画作成</router-link
+          ></el-menu-item
+        >
+      </el-submenu>
       <el-submenu index="5">
-        <template slot="title">マスタメンテナンス</template>
+        <template slot="title">配合表</template>
         <el-menu-item index="5-1"
+          ><router-link to="/plan/plan">配合表検索</router-link></el-menu-item
+        >
+        <el-menu-item index="5-2"
+          ><router-link to="/plan/plan">配合表作成</router-link></el-menu-item
+        >
+      </el-submenu>
+      <el-submenu index="6">
+        <template slot="title">マスタメンテナンス</template>
+        <el-menu-item index="6-1"
           ><router-link to="/master/material"
             >材料マスタ</router-link
           ></el-menu-item
         >
       </el-submenu>
+      <el-button v-if="!login" size="large" type="success" @click="signIn"
+        >ログイン</el-button
+      >
+      <el-button v-if="login" size="large" type="success" @click="signOut"
+        >ログアウト</el-button
+      >
     </el-menu>
     <router-view />
   </div>
 </template>
 
+<script>
+import firebase from "firebase";
+
+export default {
+  name: "App",
+  data() {
+    return {
+      login: false
+    };
+  },
+  methods: {
+    signIn() {
+      this.$router.push("/signin");
+    },
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then(() => {
+          this.$router.push("/signin");
+        });
+    },
+    redirectSignIn() {
+      this.$router.push("/signin");
+    }
+  },
+  mounted() {
+    let user = firebase.auth().currentUser;
+    if (user) {
+      this.login = true;
+    } else {
+      this.login = false;
+    }
+  }
+};
+</script>
 <style lang="scss">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
