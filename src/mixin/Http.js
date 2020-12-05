@@ -5,7 +5,7 @@ const root = `${process.env.VUE_APP_API_URL}`;
 class Http {
   constructor() {
     let service = axios.create({});
-    service.interceptors.request.use((config) => {
+    service.interceptors.request.use(config => {
       // firebaseトークンをサーバー側で認証するためログイン時に保持していたトークンを送る
       const token = localStorage.getItem("token");
       config.headers.common["Authorization"] = "Bearer " + token;

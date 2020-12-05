@@ -28,13 +28,13 @@ export default {
         .auth()
         .signInWithEmailAndPassword(this.username, this.password)
         .then(
-          (user) => {
+          user => {
             console.log(user);
             // IDロークン(JWT)取得
             firebase
               .auth()
               .currentUser.getIdToken(true)
-              .then((token) => {
+              .then(token => {
                 // ローカルストレージに保存
                 localStorage.setItem("token", token);
               });
@@ -42,7 +42,7 @@ export default {
             alert("Success!");
             this.$router.push("/");
           },
-          (err) => {
+          err => {
             alert(err.message);
           }
         );

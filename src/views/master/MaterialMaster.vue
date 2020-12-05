@@ -161,13 +161,13 @@ export default {
     ////////////////// 一覧
     async refresh() {
       await MixMate.post(url.MATERIAL_FIND_ALL_PAGEABLE, this.pageRequest)
-        .then((response) => {
+        .then(response => {
           // データ更新
           this.materials = response.data.materials;
           // ページネーション設定
           this.totalElements = response.data.totalElements;
         })
-        .catch((err) => {
+        .catch(err => {
           if (err.response.status == 401) {
             this.$router.push("/signin");
           }
@@ -197,7 +197,7 @@ export default {
             type: "success"
           });
         })
-        .catch((err) => {
+        .catch(err => {
           console.log("err", err);
         });
     },
@@ -216,6 +216,7 @@ export default {
       this.materialDetailRequest = request;
       this.materialDetailModalVisible = true;
     },
+
     // 詳細モーダルクローズ
     hideMaterialDetailModal() {
       this.materialDetailModalVisible = false;

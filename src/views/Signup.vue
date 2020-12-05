@@ -27,10 +27,10 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.username, this.password)
-        .then((user) => {
+        .then(user => {
           alert("Create account: ", user.email);
         })
-        .catch((error) => {
+        .catch(error => {
           alert(error.message);
         });
     }
